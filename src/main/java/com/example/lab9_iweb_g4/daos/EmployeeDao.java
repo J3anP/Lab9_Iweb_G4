@@ -142,7 +142,30 @@ public class EmployeeDao {
     }
 
     public int searchLastId() {
-        // TODO
-        return 0;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        String url = "jdbc:mysql://localhost:3306/employees";
+
+        String sql = "SELECT emp_no from employees ORDER BY emp_no DESC LIMIT 1";
+
+        String lastId = "0";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                lastId = rs.getString(1);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Integer.parseInt(lastId);
     }
 }
