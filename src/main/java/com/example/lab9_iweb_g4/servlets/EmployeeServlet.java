@@ -20,16 +20,20 @@ public class EmployeeServlet extends HttpServlet {
         response.setContentType("text/html");
 
         String action = request.getParameter("action") == null ? "lista" : request.getParameter("action");
+        String offset = request.getParameter("offset") == null ? "0": request.getParameter("offset");
+        String limit = request.getParameter("limit") == null ? "100": request.getParameter("limit");
 
         EmployeeDao employeeDao = new EmployeeDao();
 
         switch (action){
             case "lista":
                 //saca del modelo
-                ArrayList<Employee> list = employeeDao.list();
+                ArrayList<Employee> list = employeeDao.list(offset,limit);
 
                 //mandar la lista a la vista -> job/lista.jsp
                 request.setAttribute("lista",list);
+                //request.setAttribute("offset",offset);
+                //request.setAttribute("limit",limit);
                 RequestDispatcher rd = request.getRequestDispatcher("employee/lista.jsp");
                 rd.forward(request,response);
                 break;
@@ -67,6 +71,8 @@ public class EmployeeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 
+        ArrayList<Employee> lista = new ArrayList<>();
+
         EmployeeDao employeeDao = new EmployeeDao();
 
         String action = request.getParameter("action") == null ? "crear" : request.getParameter("action");
@@ -94,13 +100,27 @@ public class EmployeeServlet extends HttpServlet {
                 break;
             case "s":
                 String textBuscar = request.getParameter("textoBuscar");
-                ArrayList<Employee> lista = employeeDao.searchByName(textBuscar);
+                lista = employeeDao.searchByName(textBuscar);
 
                 request.setAttribute("lista",lista);
                 request.setAttribute("busqueda",textBuscar);
                 request.getRequestDispatcher("employee/lista.jsp").forward(request,response);
-
                 break;
+
+            /* Método de paginado por POST
+                case "limit":
+
+                String offset = request.getParameter("offset") == null ? "0": request.getParameter("offset");
+                String limit = request.getParameter("limit") == null ? "100": request.getParameter("limit");
+
+                lista = employeeDao.list(offset, limit);
+
+                request.setAttribute("lista",lista);
+                request.setAttribute("offset",offset);
+                request.setAttribute("limit",limit);
+
+                request.getRequestDispatcher("employee/lista.jsp").forward(request,response);
+                break;*/
         }
     }
 }

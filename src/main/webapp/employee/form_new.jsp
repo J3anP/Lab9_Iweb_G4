@@ -19,7 +19,7 @@
             - ¿qué voy a mandar? -> inputs y deben tener "name"
             - un botón con type submit (para enviarlo)
     -->
-    <form method="post" action="<%=request.getContextPath()%>/EmployeeServlet">
+    <form method="post" action="<%=request.getContextPath()%>/EmployeeServlet?action=crear">
         <div class="mb-3">
             <label>birth date</label>
             <input type="text" class="form-control" name="birthDate">

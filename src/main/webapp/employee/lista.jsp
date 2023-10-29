@@ -24,9 +24,10 @@
         <div class="form-floating mt-3">
             <input type="text" class="form-control" id="floatingInput"
                    placeholder="Por ID o por nombre" name="textoBuscar" value="<%= request.getAttribute("busqueda") != null ? request.getAttribute("busqueda") : "" %>">
-            <label for="floatingInput">Buscar trabajo</label>
+            <label for="floatingInput">Buscar empleado</label>
         </div>
     </form>
+
     <table class="table table-striped mt-3">
         <tr class="table-primary">
             <th>emp_no</th>

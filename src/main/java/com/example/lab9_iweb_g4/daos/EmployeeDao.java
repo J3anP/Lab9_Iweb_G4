@@ -8,7 +8,7 @@ public class EmployeeDao {
     private static final String username = "root";
     private static final String password = "root";
 
-    public ArrayList<Employee> list(){
+    public ArrayList<Employee> list(String offset, String limit){
 
         ArrayList<Employee> lista = new ArrayList<>();
 
@@ -20,25 +20,35 @@ public class EmployeeDao {
 
         String url = "jdbc:mysql://localhost:3306/employees";
 
-        String sql = "select * from employees limit 100";
+        int offsetL = 0;
+        int limitL = 100;
 
+        String sql = "select * from employees limit ? offset ?";
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql);){
 
-            while (rs.next()) {
-                Employee employee = new Employee();
-                employee.setEmpNo(rs.getInt(1));
-                employee.setBirthDate(rs.getString(2));
-                employee.setFirstName(rs.getString(3));
-                employee.setLastName(rs.getString(4));
-                employee.setGender(rs.getString(4));
-                employee.setHireDate(rs.getString(4));
-
-                lista.add(employee);
+            if(!(Integer.parseInt(offset)==0 & Integer.parseInt(limit)==100)){
+                offsetL = Integer.parseInt(offset)-1;
+                limitL = Integer.parseInt(limit)-Integer.parseInt(offset)+1;
             }
 
+            pstmt.setInt(1,limitL);
+            pstmt.setInt(2,offsetL);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()) {
+                    Employee employee = new Employee();
+                    employee.setEmpNo(rs.getInt(1));
+                    employee.setBirthDate(rs.getString(2));
+                    employee.setFirstName(rs.getString(3));
+                    employee.setLastName(rs.getString(4));
+                    employee.setGender(rs.getString(4));
+                    employee.setHireDate(rs.getString(4));
+
+                    lista.add(employee);
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -102,8 +112,8 @@ public class EmployeeDao {
                     employee.setBirthDate(rs.getString(2));
                     employee.setFirstName(rs.getString(3));
                     employee.setLastName(rs.getString(4));
-                    employee.setGender(rs.getString(4));
-                    employee.setHireDate(rs.getString(4));
+                    employee.setGender(rs.getString(5));
+                    employee.setHireDate(rs.getString(6));
                 }
             }
         } catch (SQLException e) {
@@ -189,8 +199,8 @@ public class EmployeeDao {
                      employee.setBirthDate(rs.getString(2));
                      employee.setFirstName(rs.getString(3));
                      employee.setLastName(rs.getString(4));
-                     employee.setGender(rs.getString(4));
-                     employee.setHireDate(rs.getString(4));
+                     employee.setGender(rs.getString(5));
+                     employee.setHireDate(rs.getString(6));
 
                      lista.add(employee);
                  }
