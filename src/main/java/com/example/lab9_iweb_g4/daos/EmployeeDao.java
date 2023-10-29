@@ -122,7 +122,7 @@ public class EmployeeDao {
 
         String url = "jdbc:mysql://localhost:3306/employees";
 
-        String sql = "UPDATE trabajadores SET birth_date = ?,first_name = ?,last_name = ?,gender = ?, hire_date = ? WHERE emp_no=?";
+        String sql = "UPDATE employees SET birth_date = ?,first_name = ?,last_name = ?,gender = ?, hire_date = ? WHERE emp_no=?";
 
         try(Connection conn = DriverManager.getConnection(url,username, password);
             PreparedStatement pstmt = conn.prepareStatement(sql);){
