@@ -71,23 +71,25 @@ public class EmployeeServlet extends HttpServlet {
 
         String action = request.getParameter("action") == null ? "crear" : request.getParameter("action");
 
+        Employee employee = new Employee();
+
+        if(action.equals("crear") || action.equals("e")){
+            employee.setEmpNo(employeeDao.searchLastId()+1);
+            employee.setBirthDate(request.getParameter("birthDate"));
+            employee.setFirstName(request.getParameter("firstName"));
+            employee.setLastName(request.getParameter("lastName"));
+            employee.setGender(request.getParameter("gender"));
+            employee.setHireDate(request.getParameter("hireDate"));
+        }
+
         switch (action){
             case "crear":
-
-                Employee employee = new Employee();
-
-                employee.setEmpNo(employeeDao.searchLastId()+1);
-                employee.setBirthDate(request.getParameter("birthDate"));
-                employee.setFirstName(request.getParameter("firstName"));
-                employee.setLastName(request.getParameter("lastName"));
-                employee.setGender(request.getParameter("gender"));
-                employee.setHireDate(request.getParameter("hireDate"));
-
                 employeeDao.create(employee);
-
+                response.sendRedirect(request.getContextPath()+"/EmployeeServlet");
                 break;
             case "e":
-                // TODO
+                employeeDao.actualizar(employee);
+                response.sendRedirect(request.getContextPath()+"/EmployeeServlet");
                 break;
             case "s":
                 String textBuscar = request.getParameter("textoBuscar");
