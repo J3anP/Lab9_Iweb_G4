@@ -162,8 +162,40 @@ public class EmployeeDao {
     }
 
     public ArrayList<Employee> searchByName(String name) {
-        // TODO
-        return null;
+        ArrayList<Employee> employeeList = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        String url = "jdbc:mysql://localhost:3306/employees";
+
+        String sql = "select * from employees where first_name = ? and last_name = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1,name);
+            pstmt.setString(2,"%" + name + "%");
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                while (rs.next()) {
+                    Employee emp  = new Employee();
+                    emp.setEmpNo(rs.getInt(1));
+                    emp.setBirthDate(rs.getString(2));
+                    emp.setFirstName(rs.getString(3));
+                    emp.setLastName(rs.getString(4));
+                    emp.setGender(rs.getString(5));
+                    emp.setHireDate(rs.getString(6));
+                    employeeList.add(emp);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return employeeList;
     }
 
     public int searchLastId() {
