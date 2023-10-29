@@ -73,7 +73,18 @@ public class EmployeeServlet extends HttpServlet {
 
         switch (action){
             case "crear":
-                // TODO
+
+                Employee employee = new Employee();
+
+                employee.setEmpNo(employeeDao.searchLastId()+1);
+                employee.setBirthDate(request.getParameter("birthDate"));
+                employee.setFirstName(request.getParameter("firstName"));
+                employee.setLastName(request.getParameter("lastName"));
+                employee.setGender(request.getParameter("gender"));
+                employee.setHireDate(request.getParameter("hireDate"));
+
+                employeeDao.create(employee);
+
                 break;
             case "e":
                 // TODO

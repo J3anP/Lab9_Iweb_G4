@@ -48,8 +48,6 @@ public class EmployeeDao {
 
     public void create(Employee employee){
 
-        int lastId = searchLastId();
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -63,7 +61,7 @@ public class EmployeeDao {
         try(Connection conn = DriverManager.getConnection(url,username, password);
             PreparedStatement pstmt = conn.prepareStatement(sql);){
 
-            pstmt.setInt(1,lastId+1);
+            pstmt.setInt(1,employee.getEmpNo());
             pstmt.setString(2,employee.getBirthDate());
             pstmt.setString(3,employee.getFirstName());
             pstmt.setString(4, employee.getLastName());
