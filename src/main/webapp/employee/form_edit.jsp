@@ -27,7 +27,7 @@
         </div>
         <div class="mb-3">
             <label>last name</label>
-            <input type="text" class="form-control" name="LastName" value="<%=employee.getLastName()%>">
+            <input type="text" class="form-control" name="lastName" value="<%=employee.getLastName()%>">
         </div>
         <div class="mb-3">
             <label>gender</label>

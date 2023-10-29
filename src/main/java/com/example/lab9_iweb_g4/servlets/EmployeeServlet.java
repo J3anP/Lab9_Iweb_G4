@@ -74,7 +74,6 @@ public class EmployeeServlet extends HttpServlet {
         Employee employee = new Employee();
 
         if(action.equals("crear") || action.equals("e")){
-            employee.setEmpNo(employeeDao.searchLastId()+1);
             employee.setBirthDate(request.getParameter("birthDate"));
             employee.setFirstName(request.getParameter("firstName"));
             employee.setLastName(request.getParameter("lastName"));
@@ -84,10 +83,12 @@ public class EmployeeServlet extends HttpServlet {
 
         switch (action){
             case "crear":
+                employee.setEmpNo(employeeDao.searchLastId()+1);
                 employeeDao.create(employee);
                 response.sendRedirect(request.getContextPath()+"/EmployeeServlet");
                 break;
             case "e":
+                employee.setEmpNo(Integer.parseInt(request.getParameter("empNo")));
                 employeeDao.actualizar(employee);
                 response.sendRedirect(request.getContextPath()+"/EmployeeServlet");
                 break;
