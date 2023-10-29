@@ -21,7 +21,7 @@
     -->
     <form method="post" action="<%=request.getContextPath()%>/EmployeeServlet">
         <div class="mb-3">
-            <labe>birth date</labe>
+            <label>birth date</label>
             <input type="text" class="form-control" name="empNo">
         </div>
         <div class="mb-3">

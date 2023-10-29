@@ -89,7 +89,31 @@ public class EmployeeDao {
     }
 
     public void actualizar(Employee employee){
-        // TODO
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        String url = "jdbc:mysql://localhost:3306/employees";
+
+        String sql = "UPDATE trabajadores SET birth_date = ?,first_name = ?,last_name = ?,gender = ?, hire_date = ? WHERE emp_no=?";
+
+        try(Connection conn = DriverManager.getConnection(url,username, password);
+            PreparedStatement pstmt = conn.prepareStatement(sql);){
+
+            pstmt.setString(1,employee.getBirthDate());
+            pstmt.setString(2,employee.getFirstName());
+            pstmt.setString(3, employee.getLastName());
+            pstmt.setString(4,employee.getGender());
+            pstmt.setString(5,employee.getHireDate());
+            pstmt.setInt(6,employee.getEmpNo());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void borrar(String employeeNo) throws SQLException {

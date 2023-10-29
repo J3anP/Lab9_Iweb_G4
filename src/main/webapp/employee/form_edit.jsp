@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="employee" type="com.example.clase10crud.beans.Employee" scope="request" />
+<jsp:useBean id="employee" type="com.example.lab9_iweb_g4.beans.Employee" scope="request" />
 <!DOCTYPE html>
 <html>
 <head>
