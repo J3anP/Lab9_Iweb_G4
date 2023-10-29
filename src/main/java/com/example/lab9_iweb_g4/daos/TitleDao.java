@@ -9,7 +9,7 @@ public class TitleDao {
     private static final String username = "root";
     private static final String password = "root";
 
-    public ArrayList<Title> list(){
+    public ArrayList<Title> list(String offset, String limit){
 
         ArrayList<Title> lista = new ArrayList<>();
 
