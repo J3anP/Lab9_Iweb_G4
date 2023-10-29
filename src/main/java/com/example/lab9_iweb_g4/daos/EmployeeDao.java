@@ -47,7 +47,34 @@ public class EmployeeDao {
     }
 
     public void create(Employee employee){
-        //TODO
+
+        int lastId = searchLastId();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        String url = "jdbc:mysql://localhost:3306/employees";
+
+        String sql = "INSERT INTO employees(emp_no,birth_date,first_name,last_name,gender,hire_date) VALUES  (?,?,?,?,?,?)";
+
+        try(Connection conn = DriverManager.getConnection(url,username, password);
+            PreparedStatement pstmt = conn.prepareStatement(sql);){
+
+            pstmt.setInt(1,lastId+1);
+            pstmt.setString(2,employee.getBirthDate());
+            pstmt.setString(3,employee.getFirstName());
+            pstmt.setString(4, employee.getLastName());
+            pstmt.setString(5,employee.getGender());
+            pstmt.setString(6,employee.getHireDate());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Employee buscarPorId(String id){
